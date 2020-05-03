@@ -1,5 +1,5 @@
 <template>
-  <div>{{ $props.message }}</div>
+    <div>{{ $props.message }}</div>
 </template>
 
 <script>
@@ -7,7 +7,11 @@ import VueTypes from 'vue-types';
 
 export default {
   props: {
-    message: VueTypes.string.isRequired
+    message: VueTypes.arrayOf(VueTypes.shape({
+      // id: VueTypes.number.isRequired,
+      text1: VueTypes.string.isRequired,
+      text2: VueTypes.string.isRequired
+    })).isRequired
   }
 };
 </script>
