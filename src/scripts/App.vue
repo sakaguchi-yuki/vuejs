@@ -2,15 +2,13 @@
   <div>
     <p>
       <img class="logo" src="../images/logo.jpg" alt="ロゴ">
-      <span class="sample">チャット</span>
+      <span class="sample">テスト</span>
     </p>
+    <MyComponent :message="$data.message" />
     <form @submit="onSubmit">
-      名前:<input v-model="$data.texta" type="text">
-      テキスト:<input v-model="$data.textb" type="text">
+      <input v-model="$data.text" type="text">
       <button type="submit">送信</button>
     </form>
-    <!-- <MyComponent :message="$data.message" /> -->
-    <ul v-for="m in $data.message" :key="m.text">{{m.text}}</ul>
   </div>
 </template>
 
@@ -27,9 +25,8 @@ export default Vue.extend({
   },
   data() {
     return {
-      message: [{ text: 'サンプル太郎　テキストテキストテキスト' }],
-      texta: '',
-      textb: ''
+      message: '',
+      text: ''
     };
   },
   created() {
@@ -37,11 +34,9 @@ export default Vue.extend({
       console.log('connected!');
     });
 
-    socket.on('send', (a, b) => {
-      console.log(`${a}`);
-      this.$data.message.unshift(
-        a
-      );
+    socket.on('send', (message) => {
+      console.log(message);
+      this.$data.message = message;
     });
   },
   methods: {
@@ -50,7 +45,7 @@ export default Vue.extend({
      */
     onSubmit(e) {
       e.preventDefault();
-      socket.emit('send', { text: `${this.$data.texta} ${this.$data.textb}` });
+      socket.emit('send', this.$data.text);
     }
   }
 });
@@ -62,6 +57,6 @@ export default Vue.extend({
 }
 
 .sample {
-  color: $black;
+  color: $red;
 }
 </style>
